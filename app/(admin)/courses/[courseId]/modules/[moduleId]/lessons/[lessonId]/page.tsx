@@ -29,21 +29,31 @@ export default async function LessonDetailPage({ params }: Props) {
     .eq('lesson_id', lessonId)
     .order('order_index')
 
-  // Fetch exercises for each block via junction table
+  // Fetch block→exercise links (no join — avoids Supabase relation type inference issues)
   const blockIds = blocks?.map((b) => b.id) ?? []
-  const { data: blockExercises } = blockIds.length
+  const { data: blockLinks } = blockIds.length
     ? await supabase
         .from('lesson_block_exercises')
-        .select('block_id, order_index, exercise:exercises(*)')
+        .select('block_id, exercise_id, order_index')
         .in('block_id', blockIds)
         .order('order_index')
     : { data: [] }
 
+  const exerciseIds = [...new Set((blockLinks ?? []).map((l) => l.exercise_id))]
+  const { data: exercises } = exerciseIds.length
+    ? await supabase.from('exercises').select('*').in('id', exerciseIds)
+    : { data: [] }
+
+  const exerciseMap = new Map<string, Tables<'exercises'>>(
+    (exercises ?? []).map((e) => [e.id, e])
+  )
+
   const blocksWithExercises = blocks?.map((b) => ({
     ...b,
-    exercises: (blockExercises ?? [])
-      .filter((be) => be.block_id === b.id)
-      .map((be) => (be.exercise as unknown) as Tables<'exercises'>),
+    exercises: (blockLinks ?? [])
+      .filter((l) => l.block_id === b.id)
+      .map((l) => exerciseMap.get(l.exercise_id))
+      .filter((e): e is Tables<'exercises'> => e != null),
   })) ?? []
 
   return (
