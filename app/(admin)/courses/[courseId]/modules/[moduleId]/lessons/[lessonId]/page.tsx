@@ -43,7 +43,7 @@ export default async function LessonDetailPage({ params }: Props) {
     ...b,
     exercises: (blockExercises ?? [])
       .filter((be) => be.block_id === b.id)
-      .map((be) => be.exercise as Tables<'exercises'>),
+      .map((be) => (be.exercise as unknown) as Tables<'exercises'>),
   })) ?? []
 
   return (
