@@ -46,7 +46,7 @@ export function AddLessonBlockForm({ lessonId, nextOrderIndex }: AddLessonBlockF
 
   return (
     <div className="flex items-center gap-2 pt-4 border-t">
-      <Select value={type} onValueChange={setType}>
+      <Select value={type} onValueChange={(v) => setType(v ?? '')}>
         <SelectTrigger className="w-44 h-9">
           <SelectValue placeholder="Chọn loại block" />
         </SelectTrigger>

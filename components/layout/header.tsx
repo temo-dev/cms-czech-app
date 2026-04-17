@@ -36,14 +36,17 @@ export async function Header() {
             <p className="text-xs text-muted-foreground">{user?.email}</p>
           </div>
           <DropdownMenuSeparator />
-          <form action={signOut}>
-            <DropdownMenuItem asChild>
-              <button type="submit" className="w-full flex items-center gap-2 cursor-pointer">
+          <DropdownMenuItem className="p-0">
+            <form action={signOut} className="w-full">
+              <button
+                type="submit"
+                className="flex items-center gap-2 w-full px-2 py-1.5 text-sm cursor-pointer"
+              >
                 <LogOut className="h-4 w-4" />
                 Đăng xuất
               </button>
-            </DropdownMenuItem>
-          </form>
+            </form>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>

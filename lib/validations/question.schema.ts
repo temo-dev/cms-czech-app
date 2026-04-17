@@ -5,12 +5,12 @@ export const questionOptionSchema = z.object({
   text: z.string().min(1, 'Bắt buộc'),
   image_url: z.string().optional(),
   is_correct: z.boolean(),
-  order_index: z.number().int().default(0),
+  order_index: z.number().int(),
 })
 
 export const questionSchema = z.object({
   section_id: z.string().uuid().optional().nullable(),
-  type: z.enum(['mcq', 'fill_blank', 'matching', 'ordering', 'speaking', 'writing']),
+  type: z.enum(['mcq', 'fill_blank', 'matching', 'ordering', 'speaking', 'writing', 'listening', 'reading']),
   skill: z.enum(['reading', 'listening', 'writing', 'speaking', 'vocabulary', 'grammar']).optional().nullable(),
   intro_text: z.string().optional().nullable(),
   intro_image_url: z.string().optional().nullable(),
@@ -20,8 +20,8 @@ export const questionSchema = z.object({
   passage_text: z.string().optional().nullable(),
   correct_answer: z.string().optional().nullable(),
   explanation: z.string().optional().nullable(),
-  points: z.number().int().min(0).default(1),
-  order_index: z.number().int().min(0).default(0),
+  points: z.number().int().min(0),
+  order_index: z.number().int().min(0),
   options: z.array(questionOptionSchema).optional(),
 })
 

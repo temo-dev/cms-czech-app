@@ -80,7 +80,7 @@ export function FileUploadField({
           }}
         />
       </div>
-      {state === 'uploading' && <Progress value={undefined} className="h-1 w-32" />}
+      {state === 'uploading' && <Progress value={null} className="h-1 w-32" />}
       {state === 'error' && <p className="text-xs text-destructive">Tải lên thất bại</p>}
     </div>
   )

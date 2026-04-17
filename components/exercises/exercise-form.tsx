@@ -193,7 +193,7 @@ export function ExerciseForm({ exercise, onSaved }: ExerciseFormProps) {
           </div>
           <div className="space-y-1.5">
             <Label>Độ khó</Label>
-            <Select value={form.watch('difficulty')} onValueChange={(v) => form.setValue('difficulty', v)}>
+            <Select value={form.watch('difficulty')} onValueChange={(v) => form.setValue('difficulty', v ?? 'beginner')}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="beginner">Cơ bản</SelectItem>

@@ -81,9 +81,9 @@ export type ExerciseType = keyof typeof exerciseContentSchemas
 export const exerciseBaseSchema = z.object({
   type: z.string().min(1),
   skill: z.string().optional(),
-  xp_reward: z.number().int().min(0).default(10),
+  xp_reward: z.number().int().min(0),
   difficulty: z.enum(['beginner', 'intermediate', 'advanced']).optional(),
-  points: z.number().int().min(0).default(1),
+  points: z.number().int().min(0),
 })
 
 export type ExerciseBaseSchema = z.infer<typeof exerciseBaseSchema>
