@@ -26,6 +26,7 @@ interface QuestionFormProps {
     options?: Tables<'question_options'>[]
     intro_text?: string | null
     intro_image_url?: string | null
+    accepted_answers?: string[] | null
   }
 }
 
@@ -46,6 +47,7 @@ export function QuestionForm({ question }: QuestionFormProps) {
           image_url: question.image_url ?? undefined,
           passage_text: question.passage_text ?? undefined,
           correct_answer: question.correct_answer ?? undefined,
+          accepted_answers: question.accepted_answers ?? undefined,
           explanation: question.explanation ?? undefined,
           points: question.points,
           order_index: question.order_index,
@@ -71,6 +73,15 @@ export function QuestionForm({ question }: QuestionFormProps) {
   })
 
   const questionType = form.watch('type')
+  const skill = form.watch('skill')
+  const showsAudioField =
+    skill === 'listening' &&
+    (questionType === 'mcq' ||
+        questionType === 'fill_blank' ||
+        questionType === 'speaking')
+  const showsPassageField =
+    skill === 'reading' &&
+    (questionType === 'mcq' || questionType === 'fill_blank')
 
   function onSubmit(data: QuestionSchema) {
     startTransition(async () => {
@@ -172,7 +183,7 @@ export function QuestionForm({ question }: QuestionFormProps) {
           />
         </div>
 
-        {questionType === 'listening' && (
+        {showsAudioField && (
           <div className="space-y-1.5">
             <Label>Audio</Label>
             <FileUploadField
@@ -185,7 +196,7 @@ export function QuestionForm({ question }: QuestionFormProps) {
           </div>
         )}
 
-        {(questionType === 'reading') && (
+        {showsPassageField && (
           <div className="space-y-1.5">
             <Label>Đoạn văn (Passage)</Label>
             <Textarea {...form.register('passage_text')} rows={5} placeholder="Nhập đoạn văn..." />
@@ -200,10 +211,31 @@ export function QuestionForm({ question }: QuestionFormProps) {
         )}
 
         {questionType === 'fill_blank' && (
-          <div className="space-y-1.5">
-            <Label>Đáp án đúng</Label>
-            <Input {...form.register('correct_answer')} placeholder="Đáp án chính xác..." />
-          </div>
+          <>
+            <div className="space-y-1.5">
+              <Label>Đáp án đúng</Label>
+              <Input {...form.register('correct_answer')} placeholder="Đáp án chính xác..." />
+            </div>
+            <div className="space-y-1.5">
+              <Label>Đáp án chấp nhận thêm</Label>
+              <Textarea
+                value={(form.watch('accepted_answers') ?? []).join('\n')}
+                onChange={(e) =>
+                  form.setValue(
+                    'accepted_answers',
+                    e.target.value
+                      .split('\n')
+                      .map((value) => value.trim())
+                      .filter(Boolean),
+                  )}
+                rows={4}
+                placeholder={'Mỗi dòng là một biến thể hợp lệ\nVí dụ:\n28. dubna\n28. 4.\ndvacátého osmého dubna'}
+              />
+              <p className="text-xs text-muted-foreground">
+                Dùng cho câu điền đáp án ngắn có nhiều cách viết đúng.
+              </p>
+            </div>
+          </>
         )}
 
         {(questionType === 'speaking' || questionType === 'writing') && (

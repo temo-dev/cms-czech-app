@@ -359,34 +359,61 @@ export type Database = {
       }
       exam_results: {
         Row: {
+          ai_grading_pending: boolean
           attempt_id: string
           created_at: string
+          guest_token: string | null
           id: string
           pass_threshold: number
+          passed: boolean
           section_scores: Json
+          speaking_pass_threshold: number
+          speaking_score: number
+          speaking_total: number
           total_score: number
           user_id: string | null
           weak_skills: string[]
+          written_pass_threshold: number
+          written_score: number
+          written_total: number
         }
         Insert: {
+          ai_grading_pending?: boolean
           attempt_id: string
           created_at?: string
+          guest_token?: string | null
           id?: string
           pass_threshold?: number
+          passed?: boolean
           section_scores?: Json
+          speaking_pass_threshold?: number
+          speaking_score?: number
+          speaking_total?: number
           total_score?: number
           user_id?: string | null
           weak_skills?: string[]
+          written_pass_threshold?: number
+          written_score?: number
+          written_total?: number
         }
         Update: {
+          ai_grading_pending?: boolean
           attempt_id?: string
           created_at?: string
+          guest_token?: string | null
           id?: string
           pass_threshold?: number
+          passed?: boolean
           section_scores?: Json
+          speaking_pass_threshold?: number
+          speaking_score?: number
+          speaking_total?: number
           total_score?: number
           user_id?: string | null
           weak_skills?: string[]
+          written_pass_threshold?: number
+          written_score?: number
+          written_total?: number
         }
         Relationships: [
           {
@@ -864,12 +891,15 @@ export type Database = {
       }
       questions: {
         Row: {
+          accepted_answers: string[] | null
           audio_url: string | null
           correct_answer: string | null
           created_at: string
           explanation: string
           id: string
           image_url: string | null
+          intro_image_url: string | null
+          intro_text: string | null
           order_index: number
           passage_text: string | null
           points: number
@@ -879,12 +909,15 @@ export type Database = {
           type: string
         }
         Insert: {
+          accepted_answers?: string[] | null
           audio_url?: string | null
           correct_answer?: string | null
           created_at?: string
           explanation?: string
           id?: string
           image_url?: string | null
+          intro_image_url?: string | null
+          intro_text?: string | null
           order_index?: number
           passage_text?: string | null
           points?: number
@@ -894,12 +927,15 @@ export type Database = {
           type: string
         }
         Update: {
+          accepted_answers?: string[] | null
           audio_url?: string | null
           correct_answer?: string | null
           created_at?: string
           explanation?: string
           id?: string
           image_url?: string | null
+          intro_image_url?: string | null
+          intro_text?: string | null
           order_index?: number
           passage_text?: string | null
           points?: number

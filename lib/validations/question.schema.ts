@@ -10,7 +10,7 @@ export const questionOptionSchema = z.object({
 
 export const questionSchema = z.object({
   section_id: z.string().uuid().optional().nullable(),
-  type: z.enum(['mcq', 'fill_blank', 'matching', 'ordering', 'speaking', 'writing', 'listening', 'reading']),
+  type: z.enum(['mcq', 'fill_blank', 'matching', 'ordering', 'speaking', 'writing']),
   skill: z.enum(['reading', 'listening', 'writing', 'speaking', 'vocabulary', 'grammar']).optional().nullable(),
   intro_text: z.string().optional().nullable(),
   intro_image_url: z.string().optional().nullable(),
@@ -19,6 +19,7 @@ export const questionSchema = z.object({
   image_url: z.string().optional().nullable(),
   passage_text: z.string().optional().nullable(),
   correct_answer: z.string().optional().nullable(),
+  accepted_answers: z.array(z.string().min(1, 'Không được rỗng')).optional().nullable(),
   explanation: z.string().optional().nullable(),
   points: z.number().int().min(0),
   order_index: z.number().int().min(0),

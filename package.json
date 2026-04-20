@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "audio:official-a2": "python3 scripts/generate_official_a2_audio.py",
+    "assets:upload:official-a2": "node scripts/upload_official_a2_assets.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.0",
